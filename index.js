@@ -18,6 +18,26 @@ app.get('/hello/:message', (req, res) => {
   //http://localhost:3000/hello/world => {"message":"Hello world!!"}
 });
 
+app.get('/api/product', (req, res) => {
+  Product.find({}, (err, products) => {
+    if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
+    if (!products) return res.status(404).send({ message: 'There is no any products' })
+
+    res.status(200).send({ products })
+  });
+});
+
+app.get('/api/product/:productId', (req, res) => {
+  let productId = req.params.productId;
+
+  Product.findById(productId, (err, product) => {
+    if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
+    if (!product) return res.status(404).send({ message: 'The product does not exist' })
+
+    res.status(200).send({ product })
+  });
+});
+
 app.post('/api/product', (req, res) => {
   console.log('POST /api/product');
   console.log('Request Body', req.body);
