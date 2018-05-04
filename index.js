@@ -1,6 +1,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  Product = require('./models/product');
 
 // basic configuration to run server with express
 const app = express();
@@ -10,10 +11,28 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Creating ending points
+
+////////////////// Creating ending points //////////////////
 app.get('/hello/:message', (req, res) => {
-  res.send({ message: `Hello ${req.params.message}!!s` });
+  res.send({ message: `Hello ${req.params.message}!!` });
   //http://localhost:3000/hello/world => {"message":"Hello world!!"}
+});
+
+app.post('/api/product', (req, res) => {
+  console.log('POST /api/product');
+  console.log('Request Body', req.body);
+
+  let product = new Product();
+  product.name = req.body.name;
+  product.picture = req.body.picture;
+  product.price = req.body.price;
+  product.category = req.body.category;
+  product.description = req.body.description;
+
+  product.save((err, productStored) => {
+    if (err) res.status(500).send({ message: `Error saving in the data base: ${err} ` })
+    res.status(200).send({ product: productStored })
+  });
 });
 
 // First connect to the data base and server runing as callback
