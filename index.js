@@ -18,6 +18,7 @@ app.get('/hello/:message', (req, res) => {
   //http://localhost:3000/hello/world => {"message":"Hello world!!"}
 });
 
+// get all products
 app.get('/api/product', (req, res) => {
   Product.find({}, (err, products) => {
     if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
@@ -27,6 +28,7 @@ app.get('/api/product', (req, res) => {
   });
 });
 
+// get a product by id
 app.get('/api/product/:productId', (req, res) => {
   let productId = req.params.productId;
 
@@ -38,6 +40,7 @@ app.get('/api/product/:productId', (req, res) => {
   });
 });
 
+// post a product in the database
 app.post('/api/product', (req, res) => {
   console.log('POST /api/product');
   console.log('Request Body', req.body);
@@ -54,6 +57,21 @@ app.post('/api/product', (req, res) => {
     res.status(200).send({ product: productStored })
   });
 });
+
+app.delete('/api/product/:productId', (req, res) => {
+  let productId = req.params.productId;
+
+  Product.findById(productId, (err, product) => {
+    if (err) res.status(500).send({ message: `Error trying to delete product: ${err}` });
+
+    product.remove(err => {
+      if (err) res.status(500).send({ message: `Error trying to delete product: ${err}` });
+
+      res.status(200).send({ message: `The product was succesfully deleted` });
+    });
+  });
+});
+////////////////// End of ending points //////////////////
 
 // First connect to the data base and server runing as callback
 // to ensure that both are working at the same time
