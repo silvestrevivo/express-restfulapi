@@ -58,6 +58,7 @@ app.post('/api/product', (req, res) => {
   });
 });
 
+// delete a product by Id
 app.delete('/api/product/:productId', (req, res) => {
   let productId = req.params.productId;
 
@@ -69,6 +70,18 @@ app.delete('/api/product/:productId', (req, res) => {
 
       res.status(200).send({ message: `The product was succesfully deleted` });
     });
+  });
+});
+
+// edit a element by Id
+app.put('/api/product/:productId', (req, res) => {
+  let productId = req.params.productId;
+  let update = req.body;
+
+  Product.findByIdAndUpdate(productId, update, (err, productUpdated) => {
+    if (err) res.status(500).send({ message: `Error trying to update product: ${err}` });
+
+    res.status(200).send({ product: productUpdated })
   });
 });
 ////////////////// End of ending points //////////////////
