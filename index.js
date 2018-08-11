@@ -14,7 +14,7 @@ mongoose.connect(config.db, (err, res) => {
 
   // making the app listening to port
   app.listen(config.port, () => {
-    console.log(`RESTapi running on http://localhost:${port}`);
+    console.log(`RESTapi running on http://localhost:${config.port}`);
   });
 })
 
