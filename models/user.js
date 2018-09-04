@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-
+// This is the user model
 const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true},
   displayName: String,
@@ -26,13 +26,15 @@ UserSchema.pre('save', (next) => {
     bcrypt.hash(user.password, salt , null, (err, hash) => {
       if(err) return next()
 
-      user.password = hash
-      next()
+      user.password = hash;
+      next();
     })
   })
 });
 
 
+// this takes the url from gravatar through the email, and it will be saved
+// before mongoose is going to save the user in the DB
 UserSchema.methods.gravatar = function () {
   if(!this.mail) return 'https://gravatar.com/avatar/?s=200&d=retro';
 

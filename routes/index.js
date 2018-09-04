@@ -1,8 +1,10 @@
+'user strict'
+
 const express = require('express');
+const productCtrl = require('../controllers/product');
+const auth = require('../middlewares/auth');
 const api = express.Router();
 
-// Controllers
-const productCtrl = require('../controllers/product');
 
 // get all products
 api.get('/product', productCtrl.getProducts);
@@ -18,5 +20,10 @@ api.put('/product/:productId', productCtrl.updateProduct);
 
 // delete a product by Id
 api.delete('/product/:productId', productCtrl.deleteProduct);
+
+//Authentication
+api.get('/private', auth.isAuth, (req, res) => {
+  res.status(200).send({message: 'You have access'});
+})
 
 module.exports = api

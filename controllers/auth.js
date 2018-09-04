@@ -10,15 +10,17 @@ function singUp() {
     displayName: req.body.displayName
   })
 
+  // Previous is ejecuted the pre() function in User module to encrypt it
   user.save((err) => {
     if(err) res.status(500).send({message: `Error creating user: ${err}`})
 
     return res.status(200).send({token: service.createToken(user)})
+    // since the token is created, this goes in the header of the http requests
   })
 }
 
 function singIn() {
-
+  //...
 }
 
 module.exports = {
