@@ -1,0 +1,11 @@
+{
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  //"prettier.bracketSpacing": false,
+  "prettier.printWidth": 120,
+  "javascript.updateImportsOnFileMove.enabled": "always"
+}
