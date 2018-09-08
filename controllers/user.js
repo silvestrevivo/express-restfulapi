@@ -8,6 +8,7 @@ function singUp(req, res) {
   const user = new User({
     email: req.body.mail,
     displayName: req.body.displayName,
+    password: req.body.password,
   })
 
   // Previous is ejecuted the pre() function in User module to encrypt it

@@ -1,4 +1,4 @@
-'user strict'
+'use strict'
 
 const jwt = require('jwt-simple')
 const moment = require('moment')
@@ -6,7 +6,6 @@ const config = require('../config')
 
 function createToken(user) {
   const payload = {
-    // sub shouldn't take the id from the user
     sub: user._id,
     iat: moment().unix(),
     exp: moment()
@@ -27,13 +26,12 @@ function decodeToken(token) {
           status: 401,
           message: 'Token expired',
         })
-
-        resolve(payload.sub)
       }
-    } catch (error) {
+      resolve(payload.sub)
+    } catch (err) {
       reject({
         status: 500,
-        message: 'Invalid token',
+        message: 'Invalid Token',
       })
     }
   })
@@ -41,4 +39,7 @@ function decodeToken(token) {
   return decoded
 }
 
-module.exports = { createToken, decodeToken }
+module.exports = {
+  createToken,
+  decodeToken,
+}
